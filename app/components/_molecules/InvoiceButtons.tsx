@@ -29,7 +29,7 @@ const InvoiceButtons = ({
       <Button
         onClick={PaidOnClick}
         className={
-          "text-[15px] font-bold leading-[15px] tracking-[-0.25px] flex items-center justify-center w-[40%] tab:w-[131px] px-[23px] py-4 rounded-[24px] text-white bg-[#7C5DFA] hover:bg-[#9277FF]"
+          "text-[15px] font-bold leading-[15px] tracking-[-0.25px] flex items-center justify-center w-[40%] tab:w-[131px] py-4 rounded-[24px] text-white bg-[#7C5DFA] hover:bg-[#9277FF]"
         }
       >
         {paidText}

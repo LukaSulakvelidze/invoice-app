@@ -10,7 +10,7 @@ const getUser = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    const res = await axios.get("http://localhost:3000/auth/current-user", {
+    const res = await axios.get("https://full-stack-inovice-back-nest.onrender.com/auth/current-user", {
       headers: {
         Authorization: `Bearer ${cookies}`,
       },
@@ -36,7 +36,7 @@ const deleteInvoiceRequest = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    await axios.delete(`http://localhost:3000/invoice/${id}`, {
+    await axios.delete(`https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`, {
       headers: {
         Authorization: `Bearer ${cookies}`,
       },
@@ -55,7 +55,7 @@ const sendStatusChangeRequest = async (id: string | null) => {
   try {
     const cookies = getCookie("accesstoken");
     await axios.patch(
-      `http://localhost:3000/invoice/${id}`,
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`,
       {
         status: "Paid",
       },
@@ -84,7 +84,7 @@ const getInvoiceInfo = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    const res = await axios.get(`http://localhost:3000/invoice/${id}`, {
+    const res = await axios.get(`https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`, {
       headers: {
         Authorization: `Bearer ${cookies}`,
       },
@@ -129,7 +129,7 @@ const sendPostRequest = async (
   try {
     const cookies = getCookie("accesstoken");
     await axios.post(
-      `http://localhost:3000/invoice/`,
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/`,
       {
         billFrom: {
           streetAddress: formik.values.billFrom.streetAddress,
@@ -175,7 +175,7 @@ const sendEditRequest = async (
     const cookies = getCookie("accesstoken");
 
     await axios.patch(
-      `http://localhost:3000/invoice/${id}`,
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`,
       {
         billFrom: {
           streetAddress: formik.values.billFrom.streetAddress,
@@ -216,7 +216,7 @@ const sendEditRequest = async (
 const userDeactivationRequest = async () => {
   try {
     const cookies = getCookie("accesstoken");
-    await axios.delete("http://localhost:3000/users", {
+    await axios.delete("https://full-stack-inovice-back-nest.onrender.com/users", {
       headers: {
         Authorization: `Bearer ${cookies}`,
       },
