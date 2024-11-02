@@ -13,14 +13,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className="flex flex-col desk:flex-row bg-[#F8F8FB] dark:bg-[#141625]">
         {children}
       </body>
