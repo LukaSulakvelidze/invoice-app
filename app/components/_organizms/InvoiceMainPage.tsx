@@ -39,7 +39,7 @@ const InvoiceMainPage = () => {
     setCookie("accesstoken", token);
     setCookieAccessToken(token);
     getUser(setUser);
-  }, []);
+  }, [router]);
   if (!cookieAccessToken) return;
 
   const handleCheckboxChange = (value: string, isChecked: boolean) => {

@@ -8,7 +8,7 @@ import {
 } from "@/app/service/requestFoos";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { Oval } from "react-loader-spinner";
@@ -18,7 +18,15 @@ import InvoiceButtons from "../_molecules/InvoiceButtons";
 import Footer from "../_molecules/Footer";
 import DeleteModal from "../_molecules/DeleteModal";
 
-export default function MyInvoicePage() {
+function useInvoiceId() {
+  const searchParams = useSearchParams();
+  return searchParams.get("id");
+}
+
+function InvoicePageContent() {
+  const id = useInvoiceId();
+  const router = useRouter();
+
   const [cookieAccessToken, setCookieAccessToken] = useState<string | null>();
   const [windowWidth, setWindowWidth] = useState<number | undefined>();
   const [err, setErr] = useState(false);
@@ -26,10 +34,6 @@ export default function MyInvoicePage() {
   const [invoice, setInvoice] = useState<Invoice | undefined>();
   const [showModal, setShowModal] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
-
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const router = useRouter();
 
   useEffect(() => {
     setLoader(true);
@@ -60,7 +64,7 @@ export default function MyInvoicePage() {
     setCookie("accesstoken", token);
     setCookieAccessToken(token);
     getInvoiceInfo(id, setInvoice, setErr, setLoader, router);
-  }, []);
+  }, [id, router]);
 
   if (!cookieAccessToken) return;
 
@@ -68,9 +72,7 @@ export default function MyInvoicePage() {
     setWindowWidth(window.innerWidth);
   });
 
-  const goBackPage = () => {
-    router.back();
-  };
+  const goBackPage = () => router.back();
 
   return (
     <Layout>
@@ -259,5 +261,13 @@ export default function MyInvoicePage() {
         </div>
       )}
     </Layout>
+  );
+}
+
+export default function MyInvoicePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InvoicePageContent />
+    </Suspense>
   );
 }
