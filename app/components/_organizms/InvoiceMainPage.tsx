@@ -91,10 +91,13 @@ const InvoiceMainPage = () => {
             filteredInvoices.map((item) => {
               return (
                 <Invoices
-                  onClick={() => navigateToInvoice(item._id)}
                   key={Math.random()}
+                  onClick={() => navigateToInvoice(item._id)}
+                  date={item.invoiceDate}
                   width={windowWidth}
-                  amount={1000}
+                  amount={item.invoiceItems
+                    .map((item) => item.itemTotalPrice)
+                    .reduce((a, b) => a + b, 0)}
                   invoice={item}
                 />
               );

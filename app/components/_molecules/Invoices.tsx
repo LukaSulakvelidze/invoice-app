@@ -4,7 +4,7 @@ import { GoDotFill } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Invoice_props } from "@/app/interfaces/common";
 
-const Invoices = ({ onClick, width, invoice, amount }: Invoice_props) => {
+const Invoices = ({ onClick, date, width, invoice, amount }: Invoice_props) => {
   return (
     <div
       onClick={onClick}
@@ -17,7 +17,7 @@ const Invoices = ({ onClick, width, invoice, amount }: Invoice_props) => {
 
         <div className="flex flex-col gap-2 tab:gap-[50px] sm:flex-row sm:flex-wrap">
           <span className="text-[13px] font-medium leading-[15px] tracking-[-0.1px] text-[#888EB0] dark:text-[#DFE3FA]">
-            due 19 Aug 2024
+            {date}
           </span>
           <span className="text-[15px] font-bold leading-[15px] tracking-[-0.25px] text-[#0C0E16] dark:text-white">
             {width && width > 767

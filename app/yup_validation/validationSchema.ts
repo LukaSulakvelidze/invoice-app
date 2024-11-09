@@ -45,4 +45,17 @@ export const validationSchema = yup.object({
   invoiceDate: yup.string().required("Required"),
   paymentTerms: yup.string().required("Required"),
   projectDescription: yup.string().required("Required"),
+  invoiceItems: yup.array().of(
+    yup.object().shape({
+      itemName: yup.string().required("Required"),
+      itemQuantity: yup
+        .number()
+        .required("Required")
+        .min(1, "Quantity must be at least 1"),
+      itemPrice: yup
+        .number()
+        .required("Required")
+        .min(0, "Price must be a positive number"),
+    })
+  ),
 });

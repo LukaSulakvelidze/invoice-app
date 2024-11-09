@@ -1,5 +1,9 @@
 import axios from "axios";
-import { InvoceTypesForFormik, Invoice, User } from "../interfaces/common";
+import {
+  Invoice,
+  InvoiceWithoutNumberAndItemTotalPrice,
+  User,
+} from "../interfaces/common";
 import { jwtDecode } from "jwt-decode";
 import { FormikProps } from "formik";
 import { deleteCookie, getCookie } from "cookies-next";
@@ -10,11 +14,14 @@ const getUser = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    const res = await axios.get("https://full-stack-inovice-back-nest.onrender.com/auth/current-user", {
-      headers: {
-        Authorization: `Bearer ${cookies}`,
-      },
-    });
+    const res = await axios.get(
+      "https://full-stack-inovice-back-nest.onrender.com/auth/current-user",
+      {
+        headers: {
+          Authorization: `Bearer ${cookies}`,
+        },
+      }
+    );
     setUser(res.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -36,11 +43,14 @@ const deleteInvoiceRequest = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    await axios.delete(`https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies}`,
-      },
-    });
+    await axios.delete(
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies}`,
+        },
+      }
+    );
     router.push("/");
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -84,11 +94,14 @@ const getInvoiceInfo = async (
 ) => {
   try {
     const cookies = getCookie("accesstoken");
-    const res = await axios.get(`https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies}`,
-      },
-    });
+    const res = await axios.get(
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies}`,
+        },
+      }
+    );
     setInvoice(res.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -123,7 +136,7 @@ const isTokenExpired = (token?: string): boolean => {
 };
 
 const sendPostRequest = async (
-  formik: FormikProps<InvoceTypesForFormik>,
+  formik: FormikProps<InvoiceWithoutNumberAndItemTotalPrice>,
   status: string
 ) => {
   try {
@@ -149,6 +162,13 @@ const sendPostRequest = async (
         paymentTerms: formik.values.paymentTerms,
         projectDescription: formik.values.projectDescription,
         status: status,
+        invoiceItems: formik.values.invoiceItems.map((item) => {
+          return {
+            itemName: item.itemName,
+            itemQuantity: item.itemQuantity,
+            itemPrice: item.itemPrice,
+          };
+        }),
       },
       {
         headers: {
@@ -169,7 +189,7 @@ const sendPostRequest = async (
 
 const sendEditRequest = async (
   id: string | null | undefined,
-  formik: FormikProps<InvoceTypesForFormik>
+  formik: FormikProps<InvoiceWithoutNumberAndItemTotalPrice>
 ) => {
   try {
     const cookies = getCookie("accesstoken");
@@ -194,6 +214,13 @@ const sendEditRequest = async (
         invoiceDate: formik.values.invoiceDate,
         paymentTerms: formik.values.paymentTerms,
         projectDescription: formik.values.projectDescription,
+        invoiceItems: formik.values.invoiceItems.map((item) => {
+          return {
+            itemName: item.itemName,
+            itemQuantity: item.itemQuantity,
+            itemPrice: item.itemPrice,
+          };
+        }),
       },
       {
         headers: {
@@ -216,11 +243,14 @@ const sendEditRequest = async (
 const userDeactivationRequest = async () => {
   try {
     const cookies = getCookie("accesstoken");
-    await axios.delete("https://full-stack-inovice-back-nest.onrender.com/users", {
-      headers: {
-        Authorization: `Bearer ${cookies}`,
-      },
-    });
+    await axios.delete(
+      "https://full-stack-inovice-back-nest.onrender.com/users",
+      {
+        headers: {
+          Authorization: `Bearer ${cookies}`,
+        },
+      }
+    );
     deleteCookie("accesstoken");
     window.location.reload();
   } catch (error) {

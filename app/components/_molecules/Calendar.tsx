@@ -21,7 +21,11 @@ export function DatePicker({ formik }: DatePicker_props) {
         <Button
           variant={"outline"}
           className={cn(
-            "border border-[#DFE3FA] dark:border-[#252945] outline-none rounded-[4px] px-5 pt-[17px] pb-[15px] text-[15px] font-bold leading-[15px] tracking-[-0.25px] text-[#0C0E16] dark:text-white dark:bg-[#1E2139]",
+            `border ${
+              formik.errors.invoiceDate && formik.touched.invoiceDate
+                ? "border-[#EC5757]"
+                : "border-[#DFE3FA] dark:border-[#252945]"
+            } outline-none rounded-[4px] px-5 pt-[17px] pb-[15px] text-[15px] font-bold leading-[15px] tracking-[-0.25px] text-[#7E88C3] dark:text-[#888EB0] dark:bg-[#1E2139]`,
             !formik.values.invoiceDate && "text-muted-foreground"
           )}
         >

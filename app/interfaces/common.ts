@@ -1,6 +1,59 @@
 import { FormikProps } from "formik";
 import React from "react";
 
+export type ItemWithoutTotalPrice = Omit<Item, "itemTotalPrice">;
+
+export type InvoiceWithoutNumberAndItemTotalPrice = Omit<
+  Invoice,
+  "invoiceNumber" | "invoiceItems" | "_id"
+> & {
+  invoiceItems: ItemWithoutTotalPrice[];
+};
+
+export type Item = {
+  itemName: string;
+  itemQuantity: number;
+  itemPrice: number;
+  itemTotalPrice: number;
+};
+
+export type Invoice = {
+  _id: string;
+  invoiceNumber: string;
+  billFrom: {
+    streetAddress: string;
+    city: string;
+    postCode: string;
+    country: string;
+  };
+  billTo: {
+    clientName: string;
+    streetAddress: string;
+    clientEmail: string;
+    city: string;
+    postCode: string;
+    country: string;
+  };
+  invoiceDate: string;
+  paymentTerms: string;
+  projectDescription: string;
+  status: string;
+  invoiceItems: Item[];
+};
+
+export type User = {
+  id: number;
+  fullName: string;
+  email: string;
+  invoices: Invoice[];
+};
+
+export interface CreateAndEditForm_props {
+  formik: FormikProps<InvoiceWithoutNumberAndItemTotalPrice>;
+}
+export interface DatePicker_props {
+  formik: FormikProps<InvoiceWithoutNumberAndItemTotalPrice>;
+}
 export interface Input_porps {
   id?: string;
   className?: string;
@@ -41,6 +94,7 @@ export interface signUpDto {
 
 export interface Invoice_props {
   onClick: () => void;
+  date: string;
   width: number | undefined;
   invoice: Invoice;
   amount: number;
@@ -63,34 +117,6 @@ export interface CreateEditModal_props {
   create: boolean;
 }
 
-export type InvoceTypesForFormik = {
-  billFrom: {
-    streetAddress: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-  billTo: {
-    clientName: string;
-    streetAddress: string;
-    clientEmail: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-  invoiceDate: string;
-  paymentTerms: string;
-  projectDescription: string;
-  status: string;
-};
-
-export interface CreateAndEditForm_props {
-  formik: FormikProps<InvoceTypesForFormik>;
-}
-export interface DatePicker_props {
-  formik: FormikProps<InvoceTypesForFormik>;
-}
-
 export interface DeleteModal_props {
   invoice: Invoice | undefined;
   setShowModalDelete: (arg: boolean) => void;
@@ -111,34 +137,3 @@ export interface InvoiceButtons_props {
   DeleteOnClick: () => void;
   paidText: string;
 }
-
-export type Invoice = {
-  _id: string;
-  invoiceNumber: string;
-  billFrom: {
-    streetAddress: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-  billTo: {
-    clientName: string;
-    streetAddress: string;
-    clientEmail: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-  invoiceDate: string;
-  paymentTerms: string;
-  projectDescription: string;
-  status: string;
-  userId: string;
-};
-
-export type User = {
-  id: number;
-  fullName: string;
-  email: string;
-  invoices: Invoice[];
-};

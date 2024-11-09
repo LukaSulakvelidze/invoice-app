@@ -21,7 +21,10 @@ export default function SignUp() {
 
   const handleSubmit = async (data: signUpDto) => {
     try {
-      const res = await axios.post("https://full-stack-inovice-back-nest.onrender.com/auth/sign-up", data);
+      const res = await axios.post(
+        "https://full-stack-inovice-back-nest.onrender.com/auth/sign-up",
+        data
+      );
       if (res.status === 201) {
         toast.success("User created successfuly");
         setTimeout(() => {

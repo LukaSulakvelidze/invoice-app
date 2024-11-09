@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import CreateAndEditForm from "../_molecules/CreateAndEditForm";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import Button from "../_atoms/Button";
-import { CreateEditModal_props } from "@/app/interfaces/common";
+import {
+  CreateEditModal_props,
+  InvoiceWithoutNumberAndItemTotalPrice,
+} from "@/app/interfaces/common";
 import { validationSchema } from "@/app/yup_validation/validationSchema";
 import { useFormik } from "formik";
 import { sendEditRequest, sendPostRequest } from "@/app/service/requestFoos";
@@ -16,27 +19,42 @@ const CreateEditModal = ({
 }: CreateEditModal_props) => {
   const [status, setStatus] = useState("");
 
-  const formik = useFormik({
-    initialValues: {
-      billFrom: {
-        streetAddress: `${!create ? invoice?.billFrom.streetAddress : ""}`,
-        city: `${!create ? invoice?.billFrom.city : ""}`,
-        postCode: `${!create ? invoice?.billFrom.postCode : ""}`,
-        country: `${!create ? invoice?.billFrom.country : ""}`,
-      },
-      billTo: {
-        clientName: `${!create ? invoice?.billTo.clientName : ""}`,
-        clientEmail: `${!create ? invoice?.billTo.clientEmail : ""}`,
-        streetAddress: `${!create ? invoice?.billTo.streetAddress : ""}`,
-        city: `${!create ? invoice?.billTo.city : ""}`,
-        postCode: `${!create ? invoice?.billTo.postCode : ""}`,
-        country: `${!create ? invoice?.billTo.country : ""}`,
-      },
-      invoiceDate: `${!create ? invoice?.invoiceDate : ""}`,
-      paymentTerms: `${!create ? invoice?.paymentTerms : ""}`,
-      status: `${!create ? invoice?.status : ""}`,
-      projectDescription: `${!create ? invoice?.projectDescription : ""}`,
+  const values: InvoiceWithoutNumberAndItemTotalPrice = {
+    billFrom: {
+      streetAddress: `${!create ? invoice?.billFrom.streetAddress : ""}`,
+      city: `${!create ? invoice?.billFrom.city : ""}`,
+      postCode: `${!create ? invoice?.billFrom.postCode : ""}`,
+      country: `${!create ? invoice?.billFrom.country : ""}`,
     },
+    billTo: {
+      clientName: `${!create ? invoice?.billTo.clientName : ""}`,
+      clientEmail: `${!create ? invoice?.billTo.clientEmail : ""}`,
+      streetAddress: `${!create ? invoice?.billTo.streetAddress : ""}`,
+      city: `${!create ? invoice?.billTo.city : ""}`,
+      postCode: `${!create ? invoice?.billTo.postCode : ""}`,
+      country: `${!create ? invoice?.billTo.country : ""}`,
+    },
+    invoiceDate: `${!create ? invoice?.invoiceDate : ""}`,
+    paymentTerms: `${!create ? invoice?.paymentTerms : ""}`,
+    status: `${!create ? invoice?.status : ""}`,
+    projectDescription: `${!create ? invoice?.projectDescription : ""}`,
+    invoiceItems: !create
+      ? (invoice?.invoiceItems ?? []).map((item) => ({
+          itemName: item.itemName,
+          itemQuantity: item.itemQuantity,
+          itemPrice: item.itemPrice,
+        }))
+      : [
+          {
+            itemName: "",
+            itemQuantity: 0,
+            itemPrice: 0,
+          },
+        ],
+  };
+
+  const formik = useFormik({
+    initialValues: values,
     validationSchema: validationSchema,
     onSubmit: () => {
       if (create) {

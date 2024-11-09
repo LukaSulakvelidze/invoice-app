@@ -232,6 +232,81 @@ function InvoicePageContent() {
                   </div>
                 </div>
 
+                <div className="w-full rounded-lg shadow-md overflow-hidden mt-9 bg-[#F9FAFE] dark:bg-[#252945]">
+                  {windowWidth && windowWidth < 767 ? (
+                    invoice?.invoiceItems.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center p-4"
+                      >
+                        <div>
+                          <p className="font-bold text-[#0C0E16] dark:text-white">
+                            {item.itemName}
+                          </p>
+                          <p className="text-[#7E88C3]">
+                            {item.itemQuantity} x £{item.itemPrice}
+                          </p>
+                        </div>
+                        <p className="font-bold text-[#0C0E16] dark:text-white">
+                          £{`${item.itemQuantity * item.itemPrice}`}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-right border-collapse">
+                        <thead>
+                          <tr className="text-[#7E88C3]">
+                            <th className="py-2 px-4 font-medium text-left text-[#7e88c3] dark:text-[#DFE3FA]">
+                              Item Name
+                            </th>
+                            <th className="py-2 px-4 font-normal text-[#7e88c3] dark:text-[#DFE3FA]">
+                              QTY.
+                            </th>
+                            <th className="py-2 px-4 font-normal text-[#7e88c3] dark:text-[#DFE3FA]">
+                              Price
+                            </th>
+                            <th className="py-2 px-4 font-normal text-[#7e88c3] dark:text-[#DFE3FA]">
+                              Total
+                            </th>
+                          </tr>
+                        </thead>
+                        {invoice?.invoiceItems.map((item, index) => (
+                          <tbody key={index}>
+                            <tr>
+                              <td className="py-2 px-4 font-bold text-left text-[#0C0E16] dark:text-white">
+                                {item.itemName}
+                              </td>
+                              <td className="py-2 px-4 font-medium text-[#7E88C3] dark:text-[#DFE3FA]">
+                                {item.itemQuantity}
+                              </td>
+                              <td className="py-2 px-4 font-medium text-[#7E88C3] dark:text-[#DFE3FA]">
+                                £{item.itemPrice}
+                              </td>
+                              <td className="py-2 px-4 font-bold text-[#0C0E16] dark:text-white">
+                                £{`${item.itemQuantity * item.itemPrice}`}
+                              </td>
+                            </tr>
+                          </tbody>
+                        ))}
+                      </table>
+                    </div>
+                  )}
+                  <div className="p-4 flex justify-between items-center text-white bg-[#373B53] dark:bg-[#0C0E16]">
+                    <p className="text-sm">
+                      {windowWidth && windowWidth < 767
+                        ? "Grand Total"
+                        : "Amount Due"}
+                    </p>
+                    <p className="text-lg font-bold">
+                      £{" "}
+                      {invoice?.invoiceItems
+                        .map((item) => item.itemTotalPrice)
+                        .reduce((a, b) => a + b, 0)}
+                    </p>
+                  </div>
+                </div>
+
                 {showModalDelete && (
                   <DeleteModal
                     invoice={invoice}
