@@ -10,6 +10,7 @@ const Filter_AddButton = ({
   setFilterShow,
   filterShow,
   handleCheckboxChange,
+  filter,
   addInvoiceButton,
 }: Filter_AddButton_props) => {
   const filterTypes = ["Draft", "Pending", "Paid"];
@@ -49,6 +50,8 @@ const Filter_AddButton = ({
                         handleCheckboxChange(item, e.target.checked)
                       }
                       inputType={"checkbox"}
+                      value={item}
+                      checked={filter.includes(item)}
                     />
                     <span className="checkmark"></span>
                   </label>

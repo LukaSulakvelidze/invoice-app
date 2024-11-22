@@ -37,6 +37,35 @@ const getUser = async (
   }
 };
 
+const getInvoices = async (
+  filter: string[],
+  setInvoices: React.Dispatch<React.SetStateAction<Invoice[] | undefined>>
+) => {
+  try {
+    const cookies = getCookie("accesstoken");
+    const res = await axios.get(
+      `https://full-stack-inovice-back-nest.onrender.com/invoice/?filter_status=${filter}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies}`,
+        },
+      }
+    );
+    setInvoices(res.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
+        console.log("Bad request");
+      }
+      if (error.response?.status === 401) {
+        console.log("Unauthorizes access");
+      }
+    } else {
+      console.log(error);
+    }
+  }
+};
+
 const deleteInvoiceRequest = async (
   id: string | null,
   router: AppRouterInstance
@@ -263,6 +292,7 @@ const userDeactivationRequest = async () => {
 };
 export {
   getUser,
+  getInvoices,
   deleteInvoiceRequest,
   sendStatusChangeRequest,
   getInvoiceInfo,

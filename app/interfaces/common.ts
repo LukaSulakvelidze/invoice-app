@@ -105,7 +105,8 @@ export interface Filter_AddButton_props {
   filteredInvoices: Invoice[] | undefined;
   setFilterShow: React.Dispatch<React.SetStateAction<boolean>>;
   filterShow: boolean;
-  handleCheckboxChange: (arg2: string, arg3: boolean) => void;
+  handleCheckboxChange: (arg1: string, arg2: boolean) => void;
+  filter: string[];
   addInvoiceButton: () => void;
 }
 
