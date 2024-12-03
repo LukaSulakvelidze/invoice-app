@@ -234,26 +234,28 @@ function InvoicePageContent() {
 
                 <div className="w-full rounded-lg shadow-md overflow-hidden mt-9 bg-[#F9FAFE] dark:bg-[#252945]">
                   {windowWidth && windowWidth < 767 ? (
-                    invoice?.invoiceItems.map((item, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between items-center p-4"
-                      >
-                        <div>
+                    <div className="w-full max-h-[240px] overflow-y-scroll">
+                      {invoice?.invoiceItems.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between items-center p-4"
+                        >
+                          <div>
+                            <p className="font-bold text-[#0C0E16] dark:text-white">
+                              {item.itemName}
+                            </p>
+                            <p className="text-[#7E88C3]">
+                              {item.itemQuantity} x £{item.itemPrice}
+                            </p>
+                          </div>
                           <p className="font-bold text-[#0C0E16] dark:text-white">
-                            {item.itemName}
-                          </p>
-                          <p className="text-[#7E88C3]">
-                            {item.itemQuantity} x £{item.itemPrice}
+                            £{`${item.itemQuantity * item.itemPrice}`}
                           </p>
                         </div>
-                        <p className="font-bold text-[#0C0E16] dark:text-white">
-                          £{`${item.itemQuantity * item.itemPrice}`}
-                        </p>
-                      </div>
-                    ))
+                      ))}
+                    </div>
                   ) : (
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto overflow-y-scroll max-h-[160px]">
                       <table className="w-full text-right border-collapse">
                         <thead>
                           <tr className="text-[#7E88C3]">
